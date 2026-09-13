@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "Refuse to write a spoken identifier as a verified fact.",
+  "bin": {
+    "exactref": "./bin/exactref.mjs"
+  },
   "scripts": {
     "dev": "next dev --port 3450",
     "build": "next build",
@@ -10,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "exactref": "vite-node src/cli.ts"
   },
   "dependencies": {
     "next": "^15.5.2",
@@ -23,6 +27,7 @@
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "typescript": "^5.9.2",
+    "vite-node": "^3.2.4",
     "vitest": "^3.2.4"
   }
 }

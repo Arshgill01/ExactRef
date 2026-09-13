@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Arshgill01/ExactRef/schemas/identifier-observation.json",
+  "title": "ExactRef identifier observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "field",
+    "intended",
+    "extracted",
+    "readbackConfirmed",
+    "evidenceKind",
+    "evidenceText",
+    "secondChannelMatch"
+  ],
+  "properties": {
+    "field": { "type": "string", "minLength": 1 },
+    "intended": { "type": ["string", "null"] },
+    "extracted": { "type": ["string", "null"] },
+    "readbackConfirmed": { "type": "boolean" },
+    "evidenceKind": { "enum": ["verbatim_span", "synthesized_support", "none"] },
+    "evidenceText": { "type": ["string", "null"] },
+    "secondChannelMatch": { "type": "boolean" }
+  }
+}

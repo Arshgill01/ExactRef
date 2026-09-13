@@ -18,6 +18,10 @@ Intended and extracted `TK-44019`, readback confirmed, no second channel → `co
 
 `unknown`. Do not mint a pickup number.
 
+## FS-05 — zero vs letter O
+
+Intended `PO-1040`. Extracted `PO-1O40` after readback-plus-yes. ExactRef: `mismatch`. Digit/letter homophones are the same class as F/S.
+
 ## Agent flow
 
 ```text

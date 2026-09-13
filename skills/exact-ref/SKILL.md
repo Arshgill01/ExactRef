@@ -56,7 +56,13 @@ Use `compileIdentifierTask` / the board Preview. The task must:
 
 ## Host demo
 
-Local board: `npm install && npm test && npm run dev` → http://127.0.0.1:3450
+Machine interface:
+
+```bash
+npm run exactref -- classify --intended 07198FECTIST --extracted 07198SECTIST --readback
+```
+
+Exit 0 only when writable. Replay fixtures on the local board: `npm install && npm test && npm run dev` → http://127.0.0.1:3450
 
 Open FS-01. The extracted string is `07198SECTIST`. The intended string is `07198FECTIST`. The write stays blocked.
 

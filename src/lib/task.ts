@@ -1,8 +1,11 @@
+import { normalizeIdentifier } from "./diff";
+
 export type TaskCompileInput = {
   purpose: string;
   fieldLabel: string;
   destinationLabel: string;
   factsTheAgentMayState: string[];
+  intended?: string | null;
 };
 
 export type CompiledTask = {
@@ -11,7 +14,7 @@ export type CompiledTask = {
   leaksIntended: boolean;
 };
 
-const LEAK_MARKERS = ["07198FECTIST", "INTENDED:", "expected identifier"];
+const LEAK_MARKERS = ["INTENDED:", "expected identifier"];
 
 export function compileIdentifierTask(input: TaskCompileInput): CompiledTask {
   const facts = input.factsTheAgentMayState.map((fact) => `- ${fact}`).join("\n");
@@ -52,6 +55,18 @@ export function compileIdentifierTask(input: TaskCompileInput): CompiledTask {
         },
       },
     },
-    leaksIntended: LEAK_MARKERS.some((marker) => task.toUpperCase().includes(marker.toUpperCase())),
+    leaksIntended: leaksIntendedValue(task, input.intended),
   };
+}
+
+export function leaksIntendedValue(task: string, intended?: string | null): boolean {
+  const haystack = task.toUpperCase();
+  if (LEAK_MARKERS.some((marker) => haystack.includes(marker.toUpperCase()))) {
+    return true;
+  }
+  const value = intended?.trim();
+  if (!value) return false;
+  if (haystack.includes(value.toUpperCase())) return true;
+  const normalized = normalizeIdentifier(value);
+  return normalized.length >= 4 && normalizeIdentifier(task).includes(normalized);
 }

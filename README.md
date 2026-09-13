@@ -23,10 +23,20 @@ Live CALL-E create is disabled on the board. Replay fixtures. A second live call
 | `skills/exact-ref/` | Agent Skill for awesome-phone-call-agents |
 | `src/lib/` | Provenance, character diff, task compiler, wait honesty |
 | `src/app/` | Review board |
+| `bin/exactref.mjs` | Classify / verify / compile without the board |
+| `schemas/` | Observation JSON Schema |
+
+```bash
+npm run exactref -- classify --intended 07198FECTIST --extracted 07198SECTIST --readback
+npm run exactref -- verify --intended 07198FECTIST --extracted 07198SECTIST --typed 07198FECTIST --second-channel
+```
+
+Exit `0` only when the decision is writable. Exit `2` for a classified-but-blocked write.
 
 ## Tests
 
-`npm test` — identifier classification, F/S diff, task leak check, wait honesty, verify gate.
+`npm test` — identifier classification, F/S and 0/O diffs, task leak check, wait honesty, verify gate, CLI.
+`npm run test:e2e` — board replay, live-create lock, typed second-channel write-gate.
 
 ## Submission
 

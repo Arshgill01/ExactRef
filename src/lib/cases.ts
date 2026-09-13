@@ -52,7 +52,7 @@ export const CASES: CaseRecord[] = [
       goalError: null,
       localWaitTimedOut: false,
     },
-    summary: "Sunday 5 PM — do not schedule from this.",
+    summary: "Sunday 5 PM",
     liveEligible: false,
   },
   {
@@ -139,6 +139,34 @@ export const CASES: CaseRecord[] = [
     summary: "They said they would call back.",
     liveEligible: false,
   },
+  {
+    id: "FS-05",
+    title: "Zero vs letter O after readback",
+    purpose: "Obtain the purchase-order number they recorded.",
+    fieldLabel: "purchase-order number",
+    destinationLabel: "the consented test desk (fixture)",
+    factsTheAgentMayState: ["Ask only for the purchase-order number they wrote down."],
+    observation: {
+      field: "purchase_order",
+      intended: "PO-1040",
+      extracted: "PO-1O40",
+      readbackConfirmed: true,
+      evidenceKind: "synthesized_support",
+      evidenceText: "P O one O four zero … yes",
+      secondChannelMatch: false,
+    },
+    wait: {
+      surface: "calls",
+      topLevelStatus: "completed",
+      hasAttemptActivity: true,
+      structuredResult: { identifier: "PO-1O40" },
+      goalResult: null,
+      goalError: null,
+      localWaitTimedOut: false,
+    },
+    summary: "They confirmed the purchase order.",
+    liveEligible: false,
+  },
 ];
 
 export function viewCase(id: string): CaseView | null {
@@ -150,7 +178,10 @@ export function viewCase(id: string): CaseView | null {
     ...record,
     decision,
     waitNote: wait.note,
-    task: compileIdentifierTask(record),
+    task: compileIdentifierTask({
+      ...record,
+      intended: record.observation.intended,
+    }),
   };
 }
 

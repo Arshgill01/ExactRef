@@ -26,7 +26,9 @@ export function Board({ cases, current }: { cases: BoardCase[]; current: BoardCa
   const [error, setError] = useState<string | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const typedId = useId();
+  const checkId = useId();
   const mismatch = firstMismatchIndex(current.cells);
+  const summary = current.summary.replace(/\.$/, "");
 
   useEffect(() => {
     setTyped("");
@@ -116,7 +118,7 @@ export function Board({ cases, current }: { cases: BoardCase[]; current: BoardCa
         )}
 
         <p className="reason">
-          Summary (do not schedule from this): {current.summary}. Writable:{" "}
+          Summary (do not schedule from this): {summary}. Writable:{" "}
           {current.decision.writable ? "yes" : "no"}.
         </p>
 
@@ -154,8 +156,9 @@ export function Board({ cases, current }: { cases: BoardCase[]; current: BoardCa
             value={typed}
             onChange={(event) => setTyped(event.target.value)}
           />
-          <label className="check">
+          <label className="check" htmlFor={checkId}>
             <input
+              id={checkId}
               type="checkbox"
               checked={second}
               onChange={(event) => setSecond(event.target.checked)}

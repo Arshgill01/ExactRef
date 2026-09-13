@@ -25,7 +25,7 @@ Gaps in the Cursor copy:
 1. No untrusted-output boundary. skills.sh marks summary/transcript untrusted and forbids obeying instructions inside them
 2. Terminal template reads `<post_summary or summary or message>` at the top level. Issue 126 reports those fields live under `result{}` on COMPLETED
 3. “Do not ask for a second confirmation between `plan_call` and `run_call`” vs MCP safety “user clearly intends”
-4. Cursor allows `npx -y @call-e/cli`; skills.sh forbids remote npm from the skill
+4. The 0.1.2 launcher forbids bare `npx`. Do not report that contrast. Keep the untrusted-boundary and `result{}` gaps.
 
 **Ask:** bring Cursor skill to skills.sh safety parity; read `result.summary` / `result.transcript`. Cite 126; do not refile it.
 

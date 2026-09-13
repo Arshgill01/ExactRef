@@ -1,0 +1,28 @@
+{
+  "name": "exact-ref",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Refuse to write a spoken identifier as a verified fact.",
+  "scripts": {
+    "dev": "next dev --port 3450",
+    "build": "next build",
+    "start": "next start --port 3450",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^15.5.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^22.18.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

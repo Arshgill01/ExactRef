@@ -11,7 +11,7 @@ awesome-phone-call-agents is flooded with vertical apps and skills (appointment,
 ## Package
 
 1. **Devpost / awesome PR:** `skills/exact-ref/` — when an agent must obtain an exact operational identifier over the phone, compile a readback protocol, then treat `structured_result` as `spoken_only` until a second channel or human verifies it. The local board and `exactref` CLI are the dry-run. See [PACKAGE_RESEARCH.md](PACKAGE_RESEARCH.md).
-2. **CALL-E infra PR:** patch `packages/cursor-plugin` in [call-e-integrations](https://github.com/CALLE-AI/call-e-integrations) (untrusted-output boundary, `result.summary` envelope, readiness vs fourth MCP tool).
+2. **CALL-E infra PRs:** [call-e-integrations#128](https://github.com/CALLE-AI/call-e-integrations/pull/128) (`calle mcp call` + `isError`) and [call-e-integrations#129](https://github.com/CALLE-AI/call-e-integrations/pull/129) (Cursor skill `result{}` envelope + untrusted boundary).
 3. **Feedback survey + Discord** using [docs/feedback/PASTE_READY.md](feedback/PASTE_READY.md).
 
 ## Evidence we already own

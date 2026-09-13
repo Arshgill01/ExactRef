@@ -46,8 +46,8 @@ Three buckets. No private numbers or transcripts attached.
 **B. MCP / CLI / Cursor skill, 2026-09-13, no second phone call.**
 
 4. **Fourth MCP tool (docs/contract).** `calle mcp tools` returned `plan_call`, `run_call`, `get_call_run`, and `track_ui_events`. Official MCP guide and the Cursor skill describe three tools. `track_ui_events` is not documented in the integrations docs I cloned. Workaround: ignore the fourth tool. Ask: document or hide it for agent clients.
-5. **Cursor skill 0.1.2 vs live `get_call_run` shape.** The official Cursor plugin still reads `summary` / `transcript` at the top level and does not mark them untrusted. skills.sh does. Same envelope as issue 126. The 0.1.2 launcher forbids bare `npx`; do not report that contrast. Ask: read `result.summary` / `result.transcript`; copy the untrusted-output boundary. Not a second filing of 126.
-6. **Generic `calle mcp call` exit code.** Dedicated `calle call status` treats `result.isError === true` as failure. Generic `calle mcp call` always prints `ok: true` and exits 0. Confirmed in current `packages/cli/lib/cli.js`. This confirms issue 127; I am not opening a second issue.
+5. **Cursor skill 0.1.2 vs live `get_call_run` shape.** The official Cursor plugin still reads `summary` / `transcript` at the top level and does not mark them untrusted. skills.sh does. Same envelope as issue 126. The 0.1.2 launcher forbids bare `npx`; do not report that contrast. Fix opened as [PR 129](https://github.com/CALLE-AI/call-e-integrations/pull/129). Not a second filing of 126.
+6. **Generic `calle mcp call` exit code.** Dedicated `calle call status` treats `result.isError === true` as failure. Generic `calle mcp call` always printed `ok: true` and exited 0. Confirmed in `packages/cli/lib/cli.js`. This is issue 127. Fix opened as [PR 128](https://github.com/CALLE-AI/call-e-integrations/pull/128); I am not opening a second issue.
 
 **C. SDK source, offline.** Calls `waitForResult` returns on top-level terminal `status`. Goal `waitForResult` waits until `result` or `error` is non-null. A local timeout does not hang up the call.
 

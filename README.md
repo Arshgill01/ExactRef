@@ -31,7 +31,7 @@ Live CALL-E create is disabled on the board. Replay fixtures. A second live call
 
 | Path | What |
 | --- | --- |
-| `skills/exact-ref/` | Agent Skill for awesome-phone-call-agents: `SKILL.md`, `scripts/exactref.mjs`, fixtures, safety notes |
+| `skills/exact-ref/` | Agent Skill for awesome-phone-call-agents ([PR #673](https://github.com/CALLE-AI/awesome-phone-call-agents/pull/673)): `SKILL.md`, `scripts/exactref.mjs`, fixtures, safety notes |
 | `skills/exact-ref/scripts/exactref.mjs` | `classify` / `verify` / `compile` / `gate` / `fixtures`. Exit `0` only when writable |
 | `src/lib/` | Same rules in TypeScript for the board: provenance, character diff, task compiler, wait honesty |
 | `src/app/` | Docket plus write-gate board |

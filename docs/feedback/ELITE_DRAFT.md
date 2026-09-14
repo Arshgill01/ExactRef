@@ -31,6 +31,13 @@ Grok passes folded (`lab/ROLLUP-grok-ts.md`, `lab/ROLLUP-grok-py.md`): XR-705 `i
 
 Q-13 gained one paragraph: the server's contract is better than its clients; the fix is one `@call-e/core` module (`next_step` consumer, terminal set, token redaction) that every skill imports.
 
+## Late pass (2026-09-14 ~22:00 IST) — audit, restructure, fold-in 2
+
+- **Pre-submit checks closed.** XR-704 and XR-707 re-run read-only; full live envelopes appended to both cards (XR-707 is non-deterministic: Grok saw “recipient …0100, English”; the lead saw the region error inside `questions[]`; both `ok: true`, `isError: false`). XR-609's skill quote did not exist — the skills branch on `call_started: "unknown"`; the card now cites `cli-reference.md:194–201` and drops to medium. XR-607 changelog re-fetched; text unchanged; card now quotes the full entry and the Calls guide's `task_completed` reservation example.
+- **Audit.** Every Q-10 item and Q-11/Q-13 sentence mapped in `lab/TRACE-paste-to-cards.md`. Cuts: two fabricated skill sentences (XR-604, XR-609), fabricated install-guide excerpts (XR-606), non-existent evidence file names (XR-605, XR-608), `auth token --show`. Corrections: guide line numbers (XR-602), sibling IDs (XR-605/608), footer status (XR-606).
+- **Restructure.** PASTE_READY answer bodies are plain text (no pipes, no bold, no backticks). Q-10 opens with a lab link and a 10-row ranked list, then buckets A–G with ≤4 sentences per item. Q-11 opens with “the six sentences the docs owe.” Q-13 is three paragraphs ending on the `@call-e/core` ask.
+- **Fold-in 2** (`lab/ROLLUP-fable-lead.md` §Fold-in 2): Q-10 G.25–29 = XR-902, XR-1007, XR-908, XR-909, XR-911; XR-901 → B.6; XR-912 → F.24; Q-11 gained XR-1001/1002 (discovery), XR-1005/1008/907/1004 (samples), XR-1003/1009 (small list). `ROLLUP-grok-pkg.md` had not landed at fold time; XR-9xx may still grow.
+
 CONFIRMED only, not refiled: 126/127, gauntlet-001..007, XR-001..006, XR-401/402, XR-501..504, unsigned webhooks.
 
 ## OffHire

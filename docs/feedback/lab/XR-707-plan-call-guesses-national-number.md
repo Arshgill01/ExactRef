@@ -42,3 +42,35 @@ Validate `to_phones` as E.164 before planning. If the value is national/ambiguou
 ## Do not claim
 
 The guessed country or that a call was placed. XR-116 (Calls vs Goal regex length). A specific live destination.
+
+## Addendum — independent re-run 2026-09-14 ~16:18 UTC (lead pass)
+
+`npx -y @call-e/cli@0.5.1 mcp call plan_call --args-json '{"to_phones":["5555550100"],"user_input":"5555550100"}' --json` (10 digits, no `+`; 555-01xx is a reserved fictional range; no goal, so `ready_to_run` cannot be true; no `run_call`). Exit 0, `ok: true`, `isError: false`. `structuredContent` (`/tmp/calle-lab/live2/plan_call_national.json`):
+
+```json
+{
+  "plan_id": "p7GWZAX2F",
+  "ready_to_run": false,
+  "next_step": "Do not ask or restate the missing questions in chat. Direct the user to fill in the plan card and click Continue. Only if the user sends a follow-up message instead, call `plan_call` again with `plan_id=\"p7GWZAX2F\"`.",
+  "clarifying_questions": [
+    "What should the call accomplish—what should the voice agent say or ask, and what should it do if the call succeeds or fails?",
+    "Calls to this region are not supported right now."
+  ],
+  "display_goal": null, "schedule_mode": "immediate", "scheduled_at": null, "schedule_timezone": null,
+  "questions": [
+    { "key": "goal", "question": "What should the call accomplish—what should the voice agent say or ask, and what should it do if the call succeeds or fails?", "options": null },
+    { "key": "question_2", "question": "Calls to this region are not supported right now.", "options": null }
+  ],
+  "confirm_summary": "Calls to this region are not supported right now.",
+  "confirm_token": null,
+  "confirm_expires_at": null,
+  "expires_at": "2026-09-15T16:18:02.079633Z"
+}
+```
+
+Two observations, one planner, same day:
+
+- Grok's morning run (`local-digits.out`): the 10-digit value was treated as a usable recipient — `confirm_summary` “I have the recipient number ending in ...0100 and can place the call in English” — and only the goal was asked for.
+- This run: the same shape produced the region error `"Calls to this region are not supported right now."` **as a `questions[]` entry with key `question_2` and as `confirm_summary`**, with `isError: false`.
+
+So the behaviour on a non-E.164 national number is non-deterministic (planner LLM), and in both branches the envelope is a success. The stable, reproduced defect is: non-E.164 input is accepted (`ok: true`, `isError: false`) and a hard server-side error is delivered as a clarifying question the agent is told to “direct the user to fill in.” The “asserts recipient + English” branch was observed once (Grok) and not reproduced by the lead pass; cite it as “observed once,” not as the default behaviour.

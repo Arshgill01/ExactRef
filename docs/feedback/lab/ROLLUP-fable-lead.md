@@ -8,7 +8,7 @@
 |---|----|-----------|----------|----------------|
 | 1 | [XR-601](XR-601-no-answer-space-never-terminal.md) | infinite poll / re-dial | Live schema and guide say `NO ANSWER` (space); all five skills' terminal lists say only `NO_ANSWER`; CLI passes the string through | Enum `status` in `outputSchema`, or add the guide's `NO ANSWER` sentence to every skill from one source |
 | 2 | [XR-605](XR-605-create-and-wait-loses-call-id.md) | duplicate dial | `createAndWait` / `create_and_wait` drop `call_id` on every post-create error (TS also throws raw `TypeError`); Quickstart promotes it with no idempotency key | Attach `call_id` to every error after create; Quickstart = create → persist → wait |
-| 3 | [XR-609](XR-609-call-status-hardcodes-call-started-true.md) | false “call exists” | `call status` error envelope hardcodes `call_started: true` — even `auth_required` on a fresh machine | Pass `"unknown"`/omit from `call status`; unit test |
+| 3 | [XR-609](XR-609-call-status-hardcodes-call-started-true.md) | false “call exists” (medium after audit) | `call status` error envelope hardcodes `call_started: true` — even `auth_required` on a fresh machine; CLI reference defines `true` as “stable `run_id` received” | Pass `"unknown"`/omit from `call status`; unit test |
 | 4 | [XR-602](XR-602-next-step-object-has-no-consumer.md) | retry-without-guidance | Server emits typed `next_step` (8 actions, `poll_after_seconds`, `retry_confirmation_action`); zero clients read it; `plan_call_same_plan_id` collides with “never twice” | One `next_step` consumer in `@call-e/core`; state whether `plan_call_same_plan_id` is the sanctioned second run |
 | 5 | [XR-604](XR-604-confirm-token-printed-to-stdout.md) | credential in logs | `call plan` prints the execution credential twice to stdout; skills say “never display it” | Redact by default; `has_confirm_token`; opt-in reveal |
 | 6 | [XR-610](XR-610-run-call-says-do-not-poll.md) | silent agent / no dial | `run_call` description: “do not perform extra operations; server will notify … wait for the activity card” — ChatGPT-only prose served to every host; `get_call_run` says poll | Host-neutral descriptions; ChatGPT text into `_meta` |
@@ -36,6 +36,32 @@ Noted, not filed: `auth status` with no token exits 0 and has no `ok` key (skill
 | XR-805 | Python non-JSON error → `JSONDecodeError` | Python half of XR-608 |
 | XR-807 / XR-808 / XR-810 / XR-809 | Onboarding table lists a customer webhook path as an API route; US languages “English, Indonesian”; Devpost “API Reference” → Quickstart; Discord button → Devpost guild | Q-11 / Q-13 material |
 | XR-701 | Two packages install `calle` | **Not pasted** — this is issue 109's family (do not refile) |
+
+## Corrections in the 2026-09-14 late pass
+
+Three cards in the table above were rewritten after a claim-by-claim audit (`TRACE-paste-to-cards.md` §Cuts): XR-604 (real skill sentences with line numbers; removed a paraphrase that did not exist), XR-609 (skills branch on `"unknown"`, not `true`; severity high → medium; contract text now from `cli-reference.md:194–201`), XR-606 (actual hosted/repo excerpts; footer is 200 at `/404.html`). XR-704 and XR-707 gained addenda with the full live envelopes from an independent re-run; XR-707's “asserts a recipient” is one of two observed branches. XR-607 now quotes the full changelog entry and the Calls guide's `task_completed` reservation example. Row 3 (XR-609) drops to medium in the paste.
+
+## Fold-in 2 — Grok XR-9xx (MCP / packaging) and XR-10xx (docs samples / links)
+
+State at fold time (2026-09-14 ~22:20 IST): `ROLLUP-grok-docs.md` landed; **`ROLLUP-grok-pkg.md` had not landed** and XR-9xx was still growing (901–913 present). Folded only cards marked observed with harm ≥ medium. Re-run independently by the lead where cheap (marked ✓).
+
+| ID | Where in paste | Why | Dedup / note |
+|----|----------------|-----|--------------|
+| XR-902 | Q-10 G.25 | `Accept: text/event-stream` → 406; GET hangs; no session id | New; MCP transport, not XR-202 |
+| XR-1007 ✓ | Q-10 G.26 | `examples/calls.py` ignores documented `CALLE_BASE_URL` | New; not XR-605 |
+| XR-908 ✓ | Q-10 G.27 | `require('@call-e/calle')` → `ERR_PACKAGE_PATH_NOT_EXPORTED`; no LICENSE / engines | New |
+| XR-909 | Q-10 G.28 | CLI tarball ships `live-e2e.mjs --call`; README link escapes tarball | New; safety |
+| XR-911 ✓ (auth status half) | Q-10 G.29 | `--json` no-op; exit codes undocumented; `auth status` has no `ok` | New; lead had noted the `ok` gap |
+| XR-901 | Q-10 B.6 (one sentence) | `resources` + empty `prompts` capabilities undocumented | Extends XR-001, not refiled |
+| XR-912 | Q-10 F.24 (one clause) | `call plan` hard-requires `--to-phone`; `plan_call` does not | Pairs with XR-707 |
+| XR-1001 | Q-11 discovery paragraph | `/api-reference.md` 404; `?format=md` is HTML | New |
+| XR-1002 | Q-11 discovery paragraph | `llms.txt` / sitemap / Pagefind omit MCP; Playwright locks membership | Strengthens XR-204 |
+| XR-1005 | Q-11 samples paragraph | webhook fences do not compile | New |
+| XR-1008 | Q-11 samples paragraph | 120 / 300 / 600 wait budgets | Extends XR-303 |
+| XR-907 | Q-11 samples paragraph | OpenAPI examples fail own E.164 pattern | Not XR-116 / XR-812 |
+| XR-1004 | Q-11 samples paragraph | README “Scheduled” vs SDKs “not included” | Caveat added: MCP `plan_call` has `schedule_mode` |
+| XR-1003, XR-1009 | Q-11 “small, cheap” list | “API 0.6” eyebrow; README hash URLs | Low-medium |
+| **Not pasted** | — | XR-903 (JSON-RPC code), XR-904 (`additionalProperties`), XR-905 (`serverInfo`), XR-906 (CORS / request id), XR-910 (`__version__`), XR-913 (`--version`), XR-1006 (OG tags), XR-1010 (Playwright pins — XR-301 family), XR-1011 (heading ids), XR-1012 (CDN preconnect) | Below medium or inferred-heavy |
 
 ## Contradictions across surfaces (matrix)
 

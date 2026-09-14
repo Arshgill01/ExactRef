@@ -53,3 +53,33 @@ Return `isError: true` (or `ok: false` / exit 2 on the dedicated command) with `
 ## Do not claim
 
 XR-003 (`ok: true` when `isError: true`). That a real call failed. A second live dial. Rate of mistyped ids.
+
+## Addendum — independent re-run 2026-09-14 ~16:20 UTC (lead pass)
+
+Both `npx -y @call-e/cli@0.5.1 mcp call get_call_run --args-json '{"run_id":"run_does_not_exist_xr704"}' --json` and `call status --run-id run_does_not_exist_xr704 --json` exited 0 with the identical envelope (`/tmp/calle-lab/live2/get_call_run_unknown.json`, `call_status_unknown.json`):
+
+```json
+{
+  "ok": true,
+  "tool_name": "get_call_run",
+  "result": {
+    "structuredContent": {
+      "run_id": "run_does_not_exist_xr704",
+      "requested_run_id": null, "parent_run_id": null, "root_run_id": null,
+      "status": "FAILED",
+      "message": "run_id not found.",
+      "display_goal": null, "schedule_mode": "immediate", "scheduled_at": null, "schedule_timezone": null,
+      "result": { "summary": null, "post_summary": null, "outcome": null, "extracted": {}, "transcript": null, "call_id": null, "call_ids": [], "batch": null },
+      "expires_at": null, "activity": [], "next_cursor": null,
+      "next_step": {
+        "action": "report_blocked", "tool_name": null, "run_id": "run_does_not_exist_xr704", "plan_id": null, "parent_run_id": null,
+        "poll_after_seconds": null, "scheduled_at": null, "schedule_timezone": null, "required_user_input": [],
+        "instruction": "Report the current terminal run status. Do not start another call."
+      }
+    },
+    "isError": false
+  }
+}
+```
+
+(`server_url` and the duplicated `content[0].text` omitted.) Reproduced by a second agent on a second id: not a one-off.

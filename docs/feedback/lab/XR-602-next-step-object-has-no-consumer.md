@@ -20,7 +20,8 @@ Under one name, `next_step` is a **string** on `plan_call` (observed: an instruc
 - Live `tools/list` 2026-09-14 (`mcp tools --json`): `plan_call.inputSchema.retry_confirmation_action`; `run_call` / `get_call_run` `outputSchema.next_step`; `plan_call.outputSchema.next_step` (`type: string`)
 - Live `get_call_run` on an unknown id (read-only): `next_step = { action: "report_blocked", poll_after_seconds: null, instruction: "Report the current terminal run status. Do not start another call." }`
 - Live `plan_call` with no phone number (planning only, cannot dial): `next_step` = prose about a plan card
-- `call-e-integrations` `1ce9d77`: `docs/mcp/openagent-oauth.md` 156–160, 232–233, 252–253; `packages/cli/lib/cli.js`; five skill trees
+- `call-e-integrations` `1ce9d77`: `docs/mcp/openagent-oauth.md` 156–160 (handoff table), 234–235 (“follow `next_step` when present or poll every 5–10 seconds”), 252–253 (“For a status outside this documented set, follow `next_step` rather than inferring terminality from elapsed time”); `packages/cli/lib/cli.js`; five skill trees
+- Live `get_call_run` unknown id, re-run 16:20 UTC: `/tmp/calle-lab/live2/get_call_run_unknown.json` (full `next_step` object quoted in XR-704 addendum)
 
 ## Expected
 

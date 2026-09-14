@@ -13,7 +13,7 @@ Opened from Arshgill01 forks against `CALLE-AI/*` `main`. No live CALL-E call. N
 | `server-sdk-python` | https://github.com/CALLE-AI/server-sdk-python/pull/41 | [XR-110](XR-110-python-recipients-skip-phone-alias.md) | `recipients=[{"phone": ...}]` gets the `phone`→`phones` alias |
 | `server-sdk-typescript` | https://github.com/CALLE-AI/server-sdk-typescript/pull/26 | [XR-605](XR-605-create-and-wait-loses-call-id.md) | `createAndWait` attaches `callId`; fetch reject → `CalleConnectionError` |
 | `call-e-integrations` | https://github.com/CALLE-AI/call-e-integrations/pull/138 | [XR-609](XR-609-call-status-hardcodes-call-started-true.md) | `calle call status` errors use `call_started: "unknown"` |
-| `call-e-integrations` | https://github.com/CALLE-AI/call-e-integrations/pull/139 | [XR-604](XR-604-confirm-token-printed-to-stdout.md) | `call plan` redacts `confirm_token`; `--show-confirm-token` opt-in |
+| `call-e-integrations` | https://github.com/CALLE-AI/call-e-integrations/pull/139 | [XR-604](XR-604-confirm-token-printed-to-stdout.md) | reworked non-breaking: default still prints `confirm_token`; `--redact-confirm-token` + private cache for `call run --plan-id` |
 
 ### Placement notes
 
@@ -32,7 +32,8 @@ None. `gh pr list` / `gh issue list` / search on 2026-09-14 showed no open PR fo
 | --- | --- |
 | Python #40, #41 | `pytest -q tests/test_calls.py` 9 passed; `ruff check` passed; `mypy src/calle` passed |
 | TypeScript #26 | `pnpm test` 39 passed; `pnpm run typecheck` passed |
-| Integrations #138, #139 | `pnpm --filter @call-e/cli test:unit` 61 passed, 1 skipped; `pnpm --filter @call-e/cli check` passed |
+| Integrations #138 | `pnpm --filter @call-e/cli test:unit` 61 passed, 1 skipped; `pnpm --filter @call-e/cli check` passed |
+| Integrations #139 (reworked) | `pnpm --filter @call-e/cli test` unit 65 passed / 1 skipped, e2e 28 passed; `pnpm run check` passed |
 | Docs #60 | Playwright not run locally (needs full site build + Chromium). Spec updated for `/#api-reference`. |
 | Docs #136, #137 | Documentation-only; branch-name check passed |
 

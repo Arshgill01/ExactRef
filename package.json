@@ -14,7 +14,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit",
-    "exactref": "vite-node src/cli.ts"
+    "exactref": "node skills/exact-ref/scripts/exactref.mjs"
   },
   "dependencies": {
     "next": "^15.5.2",

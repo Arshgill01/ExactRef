@@ -37,3 +37,7 @@ export function clearDisposition(id: string) {
   delete store[id];
   writeStore(store);
 }
+
+export function clearAllDispositions() {
+  writeStore({});
+}

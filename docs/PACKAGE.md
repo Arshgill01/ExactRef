@@ -1,12 +1,12 @@
 # ExactRef — recommended CALL-E submission
 
-**Decision, 2026-09-13.** Do not submit OffHire Desk or WindowCrew. Submit a portable Agent Skill plus an upstream CALL-E Cursor-plugin patch. Target: reusable contribution (Quality of the Idea) and Most Valuable Feedback. Practical $4,000 is secondary.
+**Decision, 2026-09-14.** Do not submit OffHire Desk or WindowCrew as products. Submit ExactRef as one package: off-hire exception `OH-01` → write-gate → `skills/exact-ref/` → CLI → CALL-E PRs. Target: reusable contribution (Quality of the Idea) and Most Valuable Feedback. Practical $4,000 is secondary.
 
 Deadline: project PR + Devpost + video by **14 September 2026, 21:15 IST**. Feedback survey open through **18 September 2026, 23:45 SGT**.
 
 ## Why this and not another desk
 
-awesome-phone-call-agents is flooded with vertical apps and skills (appointment, invoice, dispatch, quotes, school attendance, restaurant booking). OffHire and WindowCrew are already that shape. You are not confident in OffHire. WindowCrew’s skill talks to the app HTTP API, not CALL-E. Judges score reusability. Derek @ CALL-E explicitly allowed a standalone skill.
+awesome-phone-call-agents is flooded with vertical apps and skills. OffHire Desk was that shape: queue, bench, multi-model theater. That is why it is not the product. The off-hire *call* is still the only live proof we own, so the package keeps it as exception `OH-01` (two blocked writes) instead of rebuilding the desk. WindowCrew’s skill talks to an app HTTP API, not CALL-E. Judges score reusability. Derek @ CALL-E explicitly allowed a standalone skill.
 
 ## Package
 

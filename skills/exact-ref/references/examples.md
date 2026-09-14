@@ -1,5 +1,7 @@
 # Examples
 
+`OH-01` is the off-hire exception from the 2026-09-05 live call. It holds two write-gates: FS-01 (reference) and FS-02 (collection window). OffHire Desk is not the product.
+
 ## FS-01 — live substitution (hero)
 
 Intended `07198FECTIST`. CALL-E extracted `07198SECTIST` after a full readback and “yes” (one authorized Calls API call, 2026-09-05, Python SDK 0.7.0). Schema-valid.

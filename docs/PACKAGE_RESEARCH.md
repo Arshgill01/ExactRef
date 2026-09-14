@@ -34,7 +34,10 @@ Keep that. Do not add analytics, CRM sync, or a second live-call product.
 ## Package shape we want judges to see
 
 ```text
-skill (rules) → CLI (machine) → board (fixture)
+OH-01 (off-hire exception)
+  → FS-01 / FS-02 (write-gates)
+  → skill (rules) → CLI (machine) → board (fixture)
+  → CALL-E PRs 128 / 129 (plumbing)
 ```
 
-The CLI is how another agent uses ExactRef tomorrow. The board is how a judge sees F become S in one second.
+The CLI is how another agent uses ExactRef tomorrow. The board is how a judge sees F become S in one second. The docket is how the package holds together without reviving OffHire Desk.

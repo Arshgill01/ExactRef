@@ -1,0 +1,12 @@
+{
+  "id": "call_fixture_fs01",
+  "status": "completed",
+  "attempts": [{ "status": "completed" }],
+  "structured_result": {
+    "identifier": "07198SECTIST",
+    "readback_confirmed": true,
+    "identifier_evidence": "zero seven one nine eight F as in Frank… yes",
+    "unresolved_time": "Sunday morning / 5:00 PM"
+  },
+  "summary": "Recipient confirmed the reference and said Sunday 5 PM."
+}

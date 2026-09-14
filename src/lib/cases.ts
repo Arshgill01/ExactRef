@@ -2,7 +2,7 @@ import type { IdentifierDecision, IdentifierObservation } from "./provenance";
 import { applyHumanVerification, classifyIdentifier } from "./provenance";
 import { compileIdentifierTask } from "./task";
 import { interpretWait, type WaitHonesty } from "./wait";
-import { clearDisposition, getDisposition, setDisposition } from "./store";
+import { clearAllDispositions, clearDisposition, getDisposition, setDisposition } from "./store";
 
 export type CaseRecord = {
   id: string;
@@ -15,6 +15,7 @@ export type CaseRecord = {
   wait: WaitHonesty;
   summary: string;
   liveEligible: boolean;
+  exceptionId?: string;
 };
 
 export type CaseView = CaseRecord & {
@@ -54,6 +55,7 @@ export const CASES: CaseRecord[] = [
     },
     summary: "Sunday 5 PM",
     liveEligible: false,
+    exceptionId: "OH-01",
   },
   {
     id: "FS-02",
@@ -82,6 +84,7 @@ export const CASES: CaseRecord[] = [
     },
     summary: "Sunday 5 PM",
     liveEligible: false,
+    exceptionId: "OH-01",
   },
   {
     id: "FS-03",
@@ -192,6 +195,11 @@ export function listCases(): CaseView[] {
 export function replayCase(id: string): CaseView | null {
   clearDisposition(id);
   return viewCase(id);
+}
+
+export function replayAllCases(): CaseView[] {
+  clearAllDispositions();
+  return listCases();
 }
 
 export function verifyCase(

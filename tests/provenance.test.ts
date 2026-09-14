@@ -8,7 +8,8 @@ import { applyHumanVerification, classifyIdentifier } from "@/lib/provenance";
 import { diffIdentifiers, firstMismatchIndex, identifiersEqual } from "@/lib/diff";
 import { compileIdentifierTask } from "@/lib/task";
 import { interpretWait } from "@/lib/wait";
-import { listCases, replayCase, verifyCase, viewCase } from "@/lib/cases";
+import { listCases, replayAllCases, replayCase, verifyCase, viewCase } from "@/lib/cases";
+import { exceptionForCase, siblingsOf } from "@/lib/exceptions";
 import { maskIdentifier } from "@/lib/mask";
 import { runExactRefCli } from "@/lib/exactref-cli";
 
@@ -226,6 +227,11 @@ describe("cases", () => {
     expect(viewCase("FS-01")?.decision.writable).toBe(false);
     expect(viewCase("FS-01")?.decision.provenance).toBe("mismatch");
     expect(viewCase("FS-05")?.decision.provenance).toBe("mismatch");
+    expect(viewCase("FS-01")?.exceptionId).toBe("OH-01");
+    expect(viewCase("FS-02")?.exceptionId).toBe("OH-01");
+    expect(exceptionForCase("FS-01")?.id).toBe("OH-01");
+    expect(siblingsOf("FS-01")).toEqual(["FS-02"]);
+    expect(exceptionForCase("FS-03")).toBeUndefined();
   });
 
   it("requires typing the intended value plus a second-channel claim", () => {
@@ -235,5 +241,6 @@ describe("cases", () => {
     const accepted = verifyCase("FS-01", "07198FECTIST", true);
     expect(accepted?.decision.writable).toBe(true);
     expect(accepted?.decision.provenance).toBe("independently_verified");
+    expect(replayAllCases().find((item) => item.id === "FS-01")?.decision.writable).toBe(false);
   });
 });

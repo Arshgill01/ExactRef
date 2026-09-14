@@ -7,5 +7,11 @@ export default async function CasePage({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const current = viewCase(id);
   if (!current) notFound();
-  return <Board cases={listCases().map(toBoardCase)} current={toBoardCase(current)} />;
+  const cases = listCases();
+  return (
+    <Board
+      cases={cases.map((item) => toBoardCase(item, cases))}
+      current={toBoardCase(current, cases)}
+    />
+  );
 }

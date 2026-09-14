@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
+import { Rail } from "@/components/Rail";
 import { firstMismatchIndex, type DiffCell } from "@/lib/diff";
-import { provenanceLabel, type IdentifierDecision } from "@/lib/provenance";
+import { provenanceLabel, type IdentifierDecision, type Provenance } from "@/lib/provenance";
 
 export type BoardCase = {
   id: string;
@@ -16,6 +17,12 @@ export type BoardCase = {
   decision: IdentifierDecision;
   task: { task: string; leaksIntended: boolean };
   cells: DiffCell[];
+  exception?: {
+    id: string;
+    title: string;
+    purpose: string;
+    siblings: { id: string; title: string; fieldLabel: string; provenance: Provenance }[];
+  };
 };
 
 export function Board({ cases, current }: { cases: BoardCase[]; current: BoardCase }) {
@@ -54,25 +61,29 @@ export function Board({ cases, current }: { cases: BoardCase[]; current: BoardCa
 
   return (
     <div className="shell">
-      <nav className="list" aria-label="Cases">
-        <h2>Cases</h2>
-        {cases.map((item) => (
-          <Link
-            key={item.id}
-            href={`/cases/${item.id}`}
-            className="case-link"
-            data-active={item.id === current.id}
-          >
-            <strong>{item.id}</strong>
-            <span>{item.title}</span>
-          </Link>
-        ))}
-      </nav>
+      <Rail cases={cases} currentId={current.id} />
       <main className="work">
         <div className="kicker">
-          {current.id} · {current.fieldLabel} · {current.destinationLabel}
+          {current.exception
+            ? `${current.exception.id} · ${current.id} · ${current.fieldLabel}`
+            : `${current.id} · ${current.fieldLabel} · ${current.destinationLabel}`}
         </div>
         <h1>{current.title}</h1>
+        {current.exception ? (
+          <div className="exception">
+            <p>
+              {current.exception.id} {current.exception.title}. {current.exception.purpose}
+            </p>
+            {current.exception.siblings.map((item) => (
+              <p key={item.id}>
+                Sibling write:{" "}
+                <Link href={`/cases/${item.id}`}>
+                  {item.id} {item.fieldLabel} ({provenanceLabel(item.provenance)})
+                </Link>
+              </p>
+            ))}
+          </div>
+        ) : null}
         <div className="stamp" data-kind={current.decision.provenance}>
           {provenanceLabel(current.decision.provenance)}
         </div>
@@ -101,13 +112,11 @@ export function Board({ cases, current }: { cases: BoardCase[]; current: BoardCa
             </div>
           </div>
         </div>
-        {mismatch !== null ? (
+        {mismatch !== null && current.cells[mismatch]?.intended ? (
           <p className="reason">
-            First difference at character {mismatch + 1}
-            {current.cells[mismatch]?.intended
-              ? `: intended ${current.cells[mismatch].intended}, extracted ${current.cells[mismatch].extracted ?? "none"}`
-              : ""}
-            .
+            First difference at character {mismatch + 1}: intended{" "}
+            {current.cells[mismatch].intended}, extracted{" "}
+            {current.cells[mismatch].extracted ?? "none"}.
           </p>
         ) : null}
 

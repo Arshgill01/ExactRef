@@ -1,6 +1,6 @@
 # Form questions and living answers
 
-**Status: 2026-09-13.** Question wording checked against the live Google Form. OffHire’s 2026-09-08 paste is superseded where the form changed. Not submitted.
+**Status: 2026-09-14.** Question wording checked against the live Google Form on 2026-09-13. OffHire’s 2026-09-08 paste is superseded. Not submitted. Q-10/Q-11/Q-13 include OffHire + docs + CLI/MCP (XR-201–207) + SDK/API (XR-107–116) labs. Highest-harm only in the paste; full cards under [lab/](lab/).
 
 Form: https://docs.google.com/forms/d/e/1FAIpQLSfGWkt2F_ED6aLatQjtjBX8YEpBVQ47A39yeDd1KQRKX488Lg/viewform
 

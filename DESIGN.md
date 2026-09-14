@@ -26,7 +26,7 @@ Restrained. Pure white surface. Brand hue 140 (moss) for verified / primary acti
 IBM Plex Sans for UI. IBM Plex Mono for identifiers and diffs. Fixed rem scale (14 / 16 / 18 / 22). Identifiers at 22–28px mono. No display fonts. No Inter, Roboto, or Arial.
 
 ## Layout
-Top bar 48px. Case list 240px. Workspace fills the rest. Identifier pair is the largest object. Evidence is a single quoted span, not a card stack. No hero. No metric tiles.
+Top bar 48px. Rail 240px (docket + cases). Workspace fills the rest. Home is a clerk docket, not a landing and not a silent redirect. On a write-gate page the identifier pair is the largest object. An exception strip names sibling writes. Evidence is a single quoted span, not a card stack. No hero. No metric tiles.
 
 ## Motion
 160ms color/opacity only. Character-diff marks appear instantly under reduced motion.

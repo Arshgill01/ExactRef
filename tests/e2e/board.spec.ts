@@ -47,6 +47,21 @@ test("FS-03 stays conversational until a typed second channel", async ({ page })
   await expect(page.getByText("Independently verified")).toBeVisible();
 });
 
+test("docket groups the off-hire exception", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "OH-01" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Writes from this exception" })).toBeVisible();
+  await page.getByRole("button", { name: "Replay fixtures" }).click();
+  await expect(page.getByRole("link", { name: /FS-03 · ticket number/ })).toContainText(
+    "Readback confirmed",
+  );
+  await page.getByRole("link", { name: /FS-01 · off-hire reference/ }).click();
+  await expect(page.getByRole("heading", { name: "Readback yes, one letter wrong" })).toBeVisible();
+  await expect(page.getByText("Sibling write:")).toBeVisible();
+  await page.getByRole("link", { name: /FS-02 collection window/ }).click();
+  await expect(page.getByRole("heading", { name: "Contradictory time, summary picked one" })).toBeVisible();
+});
+
 test("FS-04 and FS-05 stay blocked", async ({ page }) => {
   await page.getByRole("link", { name: /FS-04/ }).click();
   await expect(page.getByText("Unknown", { exact: true })).toBeVisible();

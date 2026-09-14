@@ -31,3 +31,7 @@ On CLI `--timeout-seconds` and Cursor poll instructions: this expires the client
 ## Do not claim
 
 Not a live duplicate we observed. Not a refile of 123.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Already filed by others: [server-sdk-typescript #17](https://github.com/CALLE-AI/server-sdk-typescript/issues/17) and [#23](https://github.com/CALLE-AI/server-sdk-typescript/issues/23), [server-sdk-python #30](https://github.com/CALLE-AI/server-sdk-python/issues/30) — wait predicate and deadline bounding. XR-004 / XR-504 confirm; the “timeout is not a hangup” sentence and the live ~4m39s measurement are ours.

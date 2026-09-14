@@ -58,3 +58,7 @@ On the appointment `confirmation_code` field description, add: treat as spoken e
 
 - Not a new FB-001. Stage (ASR vs conversation vs extraction) still not isolated.
 - Do not leak intended identifiers into tasks or this file.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Already filed by others: [calle-docs #40](https://github.com/CALLE-AI/calle-docs/issues/40) (open, cnpierrepapi) — a terminal status can arrive before `structured_result` is attached, contradicting “validates … before returning the terminal call task state”; [calle-docs #41](https://github.com/CALLE-AI/calle-docs/issues/41) (open) — `structured_result` populated on a call with no evidence. Our live `07198SECTIST` extract is independent evidence for #41's class of failure; cite both as filed by others.

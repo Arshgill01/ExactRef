@@ -76,3 +76,7 @@ Document `timezone_offset_minutes` as “JS getTimezoneOffset direction” or st
 ## Do not claim
 
 Live default TTL. That 2029-dated cache entries are refresh tokens (not inspected). Live timezone bug on a real plan.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Related prior art: [calle-docs #42](https://github.com/CALLE-AI/calle-docs/issues/42) (open, cnpierrepapi) — attempt timestamps lose their timezone on failed calls. Point 1 of this card (`timezone_offset_minutes` sign) is the MCP-side twin; cite #42 as filed by others.

@@ -128,3 +128,60 @@ Pinned versions used throughout: `@call-e/cli` 0.5.1 · `@call-e/calle` 0.7.0 ·
 8. **Corrected** (B.6): now cites the `_meta` facts from `CONFIRM-XR-001` rather than the 2026-09-13 “not in repo” grep alone.
 9. **Cut** (Q-06): “Leave blank while the 14 September deadline is still ahead” → ExactRef is submitted; leave blank.
 10. **Not pasted**: XR-701 (issue 109 family), XR-702/703/709/710/803/804/811/812 (below medium or overlapping).
+
+## Re-verification 2 (2026-09-14 ~22:00–22:40 IST, lead) — every Grok card cited in PASTE_READY
+
+Method: re-ran the exact read-only command in the card, or re-opened the exact file:line in the 2026-09-14 clones (`/tmp/calle-lab/*`, integrations `1ce9d77`, py `9f69e4a`, ts `2808e21`), and compared the verbatim quote. No `run_call`, no create with a recipient, no `plan_call` this pass. MCP probes used the cached CLI token programmatically (`mcp_reverify.mjs`, token never printed).
+
+| Card | Paste item | Check performed | Result |
+|---|---|---|---|
+| XR-704 | top-10 #9, F.18 | live `get_call_run` unknown id (last pass) + CONFIRM-XR-704 8k id | PASS |
+| XR-705 | top-10 #1, F.14 | live `tools/list` annotations (last pass) | PASS |
+| XR-707 | F.24 | live re-run (last pass; two branches recorded) | CORRECTED (last pass) |
+| XR-711 | F.15 / Q-11 | `cursor-plugin/.../SKILL.md` steps 2–4 verbatim; `call-e-safety.mdc:15` "Do not configure CALL-E run_call for auto-run" | PASS |
+| XR-712 | F.21 | Cursor SKILL.md steps 6–7 verbatim (60 s then 5–10 s); skills.sh step 7 | PASS |
+| XR-801 | F.23(a) | `generated/api/calls/create_call.py:39–78` handles 400/401/403/409/422/429/500 → `return None`; `models/__init__.py` exports `CallTaskObject` (a `Literal["call_task"]`), no `CallTask` / `WebhookEvent` | PASS |
+| XR-802 | F.23(b) | CONFIRM-XR-802 (last pass) | PASS |
+| XR-805 | F.22 | `src/calle/calls.py:83–84` `response.json()` before mapping | PASS · prior art server-sdk-python #39 added |
+| XR-806 | F.23(c) | `calls.py:58–61` status-only waiter; `errors.md:136` "call_not_ready means the call task has not reached a terminal state." | PASS · prior art TS #17/#23 added |
+| XR-807 | Q-11 | `README.md:269–272` table verbatim | PASS with nuance: live OpenAPI has `/calle/webhook` path (`receiveWebhookEvent`) with `servers: https://{yourserver}`; paste reworded to "the OpenAPI gets this right; the table drops it" |
+| XR-808 | Q-11 | `README.md:371,383` and live `regions.md` rows | PASS |
+| XR-809 | Q-11 | Discord invite API: `HP4BhW3hnp` → guild Devpost (66,834); `6AbXUzUV8w` → CALL-E (724); homepage has only the Devpost href | PASS |
+| XR-810 | Q-11 | Devpost resources page href `https://docs.heycall-e.com/#api-reference`; `zudoku.config.tsx` redirector only matches `route === "/api-reference"` (slash), else `/quickstart` | PASS |
+| XR-901 | Q-11 | `initialize` → `resources.listChanged: true`, `prompts.listChanged: true`; `resources/list` → `plan_call_widget` `text/html+skybridge`, `openai/widgetDomain https://dashboard.heycall-e.com/`; `prompts/list` → `[]` | PASS |
+| XR-902 | top-10 #8, G.25 | `Accept: text/event-stream` → 406 `-32600 "Not Acceptable: Client must accept application/json"`; JSON Accept → 200; GET aborted at 15 s | PASS |
+| XR-907 | Q-11 | Spectral `spectral:oas` on live spec: 2 errors `oas3-valid-media-example` phone pattern, 9 warnings | PASS |
+| XR-908 | G.27 | `require('@call-e/calle')` (last pass) | PASS |
+| XR-909 | G.28 | `packages/cli/package.json` `files` includes `scripts`; `verify:live:call` = `live-e2e.mjs --call`; `live-e2e.mjs:27,31,452` `--call` / `CALLE_CLI_LIVE_TO_PHONE`; `README.md:11` `../../docs/install/cli.md` | PASS |
+| XR-911 | G.29 | `cli-reference.md:241` "Accepted for compatibility"; `cli.js` never reads `options.json`; fresh-cache `auth status` (last pass) | PASS |
+| XR-912 | F.24 | `cli.js:979` `throw new InvalidArgumentsError("Missing required --to-phone")` in `buildPlanArguments` | PASS |
+| XR-1001 | Q-11 | `/api-reference.md` 404, `/api-reference/calls.md` 404, `?format=md` → HTML | PASS |
+| XR-1002 | Q-11 | live `llms.txt` has no mcp/cli/skill line; `/mcp`, `/mcp.md` 404; sitemap 16 locs, Pagefind 17 pages | PASS |
+| XR-1003 | Q-11 | live `goal-runs.md:5` "**API 0.6**" vs `:340` "0.7.0" | PASS |
+| XR-1004 | Q-11 | `README.md:98` "Schedule individual calls or send a batch task" | PASS |
+| XR-1005 | Q-11 | `py_compile` on live webhooks.md fences: two `SyntaxError: 'return' outside function`; TS fence uses `event` undeclared | PASS |
+| XR-1007 | top-10 #7, G.26 | `examples/calls.py:83` + `authentication.md:64` (last pass) | PASS |
+| XR-1008 | Q-11 | `examples/calls.py:62` 300; `quickstart.md:195` "five-minute"; `calls.md:532/544` 120; `calls.py:55` default 600 | PASS |
+| XR-1009 | Q-11 | npm/PyPI README `#/sdks`, `#/api-reference`; curl of `/#/sdks` = homepage | PASS |
+
+Totals: 28 cards checked · PASS 26 · CORRECTED 2 (XR-707 last pass; XR-807 nuance this pass) · CUT 0.
+
+## Prior art recorded this pass (issues by others; cited in paste as "filed by others, confirmed here")
+
+| Issue | State | Cards given a "Prior art" section | Paste location |
+|---|---|---|---|
+| server-sdk-python #39 (JSONDecodeError leak) | open | XR-805 | F.22 |
+| server-sdk-python #30 (calls vs goals wait) | open | XR-803, XR-504 | C, F.23(c) |
+| server-sdk-typescript #17 (waitForResult returns before result) | open | XR-806, XR-504 | C |
+| server-sdk-typescript #23 (timeoutMs unbounded) | open | XR-806, XR-504 | C |
+| calle-docs #40 (terminal before structured_result) | open | XR-304 | Q-11 |
+| calle-docs #41 (structured_result without evidence) | open | XR-304, XR-401 | top-10 #5, Q-11 |
+| calle-docs #42 (attempt timestamps lose timezone) | open | XR-205 | card only |
+| calle-docs #43 (failure_code contradiction) | closed | XR-501, XR-107 | Q-11 |
+| calle-docs #44 (task_completed naming) | closed | XR-501 | Q-11 |
+
+Own upstream PRs cited: call-e-integrations #128 (`isError` → failed mcp call), #129 (Cursor reads `result{}`), both open. awesome-phone-call-agents #673 (listing, not a fix; not cited in paste). `ROLLUP-upstream-prs.md` landed (commit `ec903b5`) during this pass; "Fix proposed: <url>" appended in the paste to top-10 #4 and F.16 (TS #26), F.17 (integrations #138), F.20 (#139), F.23(c) (python #40), Q-11 small list (#136, #137, docs #60); python #41 (XR-110) is listed in the Q-10 prior-art line only, since XR-110 has no paste item.
+
+## Re-rank (top-10, this pass)
+
+In: XR-1007 (#7, official example dials production when a staging URL is set) and XR-902 (#8, MCP client cannot connect; re-verified live). Out: XR-108 (now detail item 12 only) and XR-604 (detail item 20 only). XR-901 and XR-1002 stay in Q-11 (docs/discovery harm, not a wrong action). List stays at exactly 10.

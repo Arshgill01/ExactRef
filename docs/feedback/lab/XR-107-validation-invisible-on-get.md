@@ -58,3 +58,7 @@ Add `failure_code: result_validation_failed` (or restore `result_validation`) on
 - That schema-valid output is true (FB-DOC-002 / FB-001).
 - That the SDK should have revalidated extra keys (gauntlet-003).
 - Refile of 109 / 123 / 126 / 127.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Prior art, closed: [calle-docs #43](https://github.com/CALLE-AI/calle-docs/issues/43) — `failure_code` documented as machine-readable vs “do not branch on it”. Our ask (a `failure_code: result_validation_failed` on CallTask) depends on that field being stable; note the closed issue when asking.

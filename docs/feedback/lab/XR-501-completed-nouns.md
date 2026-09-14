@@ -41,3 +41,7 @@ On the Calls `CallStatus` page and the MCP terminal-status paragraph, print the 
 ## Do not claim (rate, second live call, refile of 109/123/126/127)
 
 Not a rate. Not a second live call. Not a refile of 126 or 127. SDK Calls-vs-Goal wait remains XR-004.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Prior art, closed: [calle-docs #44](https://github.com/CALLE-AI/calle-docs/issues/44) (closed, cnpierrepapi) — `task_completed` “is named for one question and defined as another”; [calle-docs #43](https://github.com/CALLE-AI/calle-docs/issues/43) (closed) — spec calls `failure_code` machine-readable while Errors says do not branch on it. Both closed; the live Calls guide still reads the same way on 2026-09-14, and the 14 Sep Success-fee changelog (XR-607) adds a fifth “done” that none of them names.

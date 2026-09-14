@@ -38,6 +38,13 @@ Q-13 gained one paragraph: the server's contract is better than its clients; the
 - **Restructure.** PASTE_READY answer bodies are plain text (no pipes, no bold, no backticks). Q-10 opens with a lab link and a 10-row ranked list, then buckets A–G with ≤4 sentences per item. Q-11 opens with “the six sentences the docs owe.” Q-13 is three paragraphs ending on the `@call-e/core` ask.
 - **Fold-in 2** (`lab/ROLLUP-fable-lead.md` §Fold-in 2): Q-10 G.25–29 = XR-902, XR-1007, XR-908, XR-909, XR-911; XR-901 → B.6; XR-912 → F.24; Q-11 gained XR-1001/1002 (discovery), XR-1005/1008/907/1004 (samples), XR-1003/1009 (small list). `ROLLUP-grok-pkg.md` had not landed at fold time; XR-9xx may still grow.
 
+## Re-verification 2 (2026-09-14 ~22:40 IST) — adversarial pass over every Grok card in the paste
+
+- **28 cards re-checked** by re-running the exact command or re-opening the exact file:line (`lab/TRACE-paste-to-cards.md` §Re-verification 2). **PASS 26 · CORRECTED 2 · CUT 0.** The two corrections: XR-707 (two live branches, last pass) and XR-807 (nuance: the live OpenAPI *does* model `POST /calle/webhook`, with a `servers: https://{yourserver}` override; the README table drops it). No fabricated quotes found in XR-7xx/8xx/9xx/10xx this pass.
+- **Top-10 re-ranked**, still exactly 10: in XR-1007 (#7, official example dials production under a staging `CALLE_BASE_URL`) and XR-902 (#8, MCP `Accept: text/event-stream` → 406, GET hangs; re-verified live); out XR-108 and XR-604 (both remain as detail items 12 and 20). XR-901 / XR-1002 stay in Q-11.
+- **Prior art.** Nine issues by others read with `gh issue view`; "Prior art" sections added to XR-805, 803, 806, 504, 304, 401, 501, 107, 205; paste now says "filed by others, confirmed here" for server-sdk-python #39/#30, server-sdk-typescript #17/#23, calle-docs #40/#41, and notes #43/#44 closed while the live page still reads the same. Our PRs 128/129 cited in the Q-10 prior-art line. `ROLLUP-upstream-prs.md` landed mid-pass (`ec903b5`): "Fix proposed" URLs now sit after the asks for XR-605 (TS #26), XR-609 (#138), XR-604 (#139), XR-806 (py #40), XR-807/808/810 (#136/#137/docs #60); nine open PRs listed in the Q-10 prior-art line.
+- **Q-13 gained a "tested and found correct" paragraph** (telemetry opt-outs, version parity, publint, tarball hygiene, OpenAPI drift = 0, mypy strict, query-string keys rejected, TLS, pydantic enforcement, sample pass counts TS 17/18 · Py 9/11 · curl 7/7 · CLI flags 126/126). Q-13 is four paragraphs.
+
 CONFIRMED only, not refiled: 126/127, gauntlet-001..007, XR-001..006, XR-401/402, XR-501..504, unsigned webhooks.
 
 ## OffHire

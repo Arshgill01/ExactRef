@@ -45,3 +45,7 @@ Document two kinds: `verbatim_span` (must equal one turn) and `synthesized_suppo
 - Rate or second live call.
 - That CALL-E “dropped an F.” The stitch quotes the last in-band S-form plus yes (see XR-403).
 - Refile of 109 / 123 / 126 / 127.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Related prior art: [calle-docs #41](https://github.com/CALLE-AI/calle-docs/issues/41) — `structured_result` populated without evidence. The stitched “verbatim” field is the evidence-side twin of that report; cite as confirmed here.

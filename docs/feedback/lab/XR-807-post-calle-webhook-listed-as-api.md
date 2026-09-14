@@ -49,3 +49,7 @@ Delete the `/calle/webhook` row. One sentence: “Webhook URL is yours; pass `we
 - That we POSTed `/calle/webhook` to the live API.
 - A new unsigned-webhook incident (FB-DOC-001).
 - Refile of XR-204 / 109 / 123 / 126 / 127.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Re-verified 2026-09-14 22:20 IST (lead): README.md:269–272 on `1ce9d77` unchanged. Nuance: the live OpenAPI does model `POST /calle/webhook` as a path (`operationId: receiveWebhookEvent`, line ~641) but with `servers: [{ url: https://{yourserver} }]` and `security: []` — i.e. the customer's receiver. The README table drops that server override and lists it beside `/v1/calls`. Card stands; paste wording adjusted to say the spec gets it right and the table does not.

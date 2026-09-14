@@ -47,3 +47,7 @@ Wrap `response.json()` in `_request`. On decode failure raise `CalleAPIError(cod
 - That the live API returned HTML today (it returned the JSON envelope for our bogus key).
 - A rate of proxy failures.
 - Refile of 109 / 123 / 126 / 127.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Already filed by others: [server-sdk-python #39](https://github.com/CALLE-AI/server-sdk-python/issues/39) (open, 2026-09-14, cuentapraces07-ops) — same `response.json()`-before-mapping leak on Calls and Goals. Cite as confirmed here, not ours. Our addition is live proof that the production API itself emits `text/plain` 404/405 (XR-608).

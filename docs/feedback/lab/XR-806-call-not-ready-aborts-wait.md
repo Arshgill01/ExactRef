@@ -52,3 +52,7 @@ Either (1) document `call_not_ready` as unused and remove it from the public enu
 - That live GET returned `call_not_ready` this session.
 - Refile of XR-004 (Calls vs Goal wait predicates) or XR-113.
 - Refile of 109 / 123 / 126 / 127.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Related prior art: [server-sdk-typescript #17](https://github.com/CALLE-AI/server-sdk-typescript/issues/17) (open, cnpierrepapi) — Calls `waitForResult` returns on terminal status without checking the result arrived; [server-sdk-typescript #23](https://github.com/CALLE-AI/server-sdk-typescript/issues/23) (open, LFerris123) — GET and sleep not bounded by `timeoutMs`. Cite both as filed by others; `call_not_ready` aborting the waiter is the Python-specific addition.

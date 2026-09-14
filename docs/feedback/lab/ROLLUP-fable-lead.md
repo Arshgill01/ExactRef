@@ -63,6 +63,10 @@ State at fold time (2026-09-14 ~22:20 IST): `ROLLUP-grok-docs.md` landed; **`ROL
 | XR-1003, XR-1009 | Q-11 “small, cheap” list | “API 0.6” eyebrow; README hash URLs | Low-medium |
 | **Not pasted** | — | XR-903 (JSON-RPC code), XR-904 (`additionalProperties`), XR-905 (`serverInfo`), XR-906 (CORS / request id), XR-910 (`__version__`), XR-913 (`--version`), XR-1006 (OG tags), XR-1010 (Playwright pins — XR-301 family), XR-1011 (heading ids), XR-1012 (CDN preconnect) | Below medium or inferred-heavy |
 
+## Re-verification 2 and prior art (2026-09-14 ~22:40 IST)
+
+Every Grok card cited in PASTE_READY was re-run or re-opened at file:line: **26 PASS, 2 CORRECTED (XR-707 two live branches; XR-807 OpenAPI-models-the-path nuance), 0 CUT** — table in `TRACE-paste-to-cards.md` §Re-verification 2. Top-10 now: 705, 202/206, 601, 605, FB-001, 107, **1007**, **902**, 704, 602 (XR-108 and XR-604 moved to detail only). Prior-art sections added for server-sdk-python #39/#30, server-sdk-typescript #17/#23, calle-docs #40/#41/#42/#43/#44 on XR-805, 803, 806, 504, 304, 401, 501, 107, 205. Fix-proposed URLs from `ROLLUP-upstream-prs.md` (`ec903b5`) attached in the paste.
+
 ## Contradictions across surfaces (matrix)
 
 Rows are the contract point; columns are where each surface stands. “—” = silent.

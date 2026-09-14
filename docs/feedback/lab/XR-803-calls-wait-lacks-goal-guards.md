@@ -63,3 +63,7 @@ Extract one `_poll_until` used by both waiters: validate finite positive seconds
 - Refile of XR-504 / gauntlet-004 (timeout ≠ hangup).
 - That we observed a live hung GET.
 - Refile of 109 / 123 / 126 / 127.
+
+## Prior art (added 2026-09-14 22:30 IST)
+
+Already filed by others: [server-sdk-python #30](https://github.com/CALLE-AI/server-sdk-python/issues/30) (open, 2026-09-04, cnpierrepapi) — Calls vs Goals `wait_for_result` disagree twice and Goals is right both times. This card is the deadline-guard half of that issue; cite as confirmed here.

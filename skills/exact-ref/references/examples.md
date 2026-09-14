@@ -2,6 +2,8 @@
 
 `OH-01` is the off-hire exception from the 2026-09-05 live call. It holds two write-gates: FS-01 (reference) and FS-02 (collection window). OffHire Desk is not the product.
 
+All fixtures here and in `fixtures.json` / `call-fs01.json` are synthetic reconstructions: the identifier values and outcome are real, the evidence strings are illustrative, and no transcript, recording, or phone number is included. `node scripts/exactref.mjs fixtures` re-classifies every fixture and exits `1` if any disagrees with its expected provenance.
+
 ## FS-01 — live substitution (hero)
 
 Intended `07198FECTIST`. CALL-E extracted `07198SECTIST` after a full readback and “yes” (one authorized Calls API call, 2026-09-05, Python SDK 0.7.0). Schema-valid.
@@ -27,9 +29,9 @@ Intended `PO-1040`. Extracted `PO-1O40` after readback-plus-yes. ExactRef: `mism
 ## Agent flow
 
 ```text
-1. Preview the compiled task. Confirm it does not contain the intended identifier.
-2. Replay the fixture (default) or, if EXACTREF_LIVE=1 and the user confirms, create one Calls API request.
-3. Classify the identifier.
-4. If mismatch or spoken_only, stop. Offer keep-spoken-only or typed second-channel verify.
-5. Never create a second call because status is queued.
+1. `compile` the task. Confirm it does not contain the intended identifier (exit 2 if it does).
+2. The host places at most one call, only on explicit user intent. This skill never dials; use a saved fixture when no call is wanted.
+3. `gate` the returned call object (or `classify` the extracted value). Non-terminal or no `structured_result` → `unknown`, write nothing.
+4. If `mismatch` or `spoken_only`, stop. Offer keep-spoken-only or a typed second-channel `verify`.
+5. Never create a second call because status is `queued`.
 ```

@@ -43,9 +43,11 @@ node scripts/exactref.mjs verify --intended 07198FECTIST --extracted 07198SECTIS
 # Compile an outbound task; exit 2 if the intended value leaks into it
 node scripts/exactref.mjs compile --field "off-hire reference" --destination "the supplier desk" --intended 07198FECTIST
 
-# All fixtures with their expected provenance
+# Self-check: re-classify every fixture, exit 1 if any disagrees with its expected provenance
 node scripts/exactref.mjs fixtures
 ```
+
+Fixtures are synthetic (see `references/examples.md`); the FS-01 identifier pair is the real one, nothing else from the call is included.
 
 ## Classify
 

@@ -1,4 +1,5 @@
 {
+  "_fixture": "Synthetic CALL-E call object modeled on the 2026-09-05 FS-01 miss. Not a transcript or recording; no phone number. Identifier values are the real intended/extracted pair.",
   "id": "call_fixture_fs01",
   "status": "completed",
   "attempts": [{ "status": "completed" }],

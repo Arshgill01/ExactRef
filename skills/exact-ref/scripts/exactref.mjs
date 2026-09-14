@@ -314,7 +314,7 @@ const USAGE = `Usage:
   exactref verify   --intended <value> --extracted <value> --typed <value> --second-channel
   exactref compile  --field <label> --destination <label> [--purpose <text>] [--fact <text>]... [--intended <value>]
   exactref gate     --call <call.json> [--field identifier] [--intended <value>]
-  exactref fixtures
+  exactref fixtures   (self-check: exit 1 if any fixture disagrees with its expected provenance)
 
 Exit 0 only when the decision is writable. Exit 2 when blocked. Exit 1 on bad input.
 `;
@@ -367,14 +367,24 @@ export function run(argv) {
       const fixtures = JSON.parse(readFileSync(path.join(here, "..", "references", "fixtures.json"), "utf8"));
       const rows = fixtures.map((fx) => {
         const decision = classifyIdentifier(fx.observation);
-        return { id: fx.id, title: fx.title, provenance: decision.provenance, writable: decision.writable, firstMismatch: decision.firstMismatch };
+        const ok = !fx.expect
+          || (decision.provenance === fx.expect.provenance && decision.writable === fx.expect.writable);
+        return { id: fx.id, title: fx.title, provenance: decision.provenance, writable: decision.writable, firstMismatch: decision.firstMismatch, ok };
       });
-      return { code: 0, stdout: out(rows), stderr: "" };
+      const failed = rows.filter((row) => !row.ok).map((row) => row.id);
+      return {
+        code: failed.length ? 1 : 0,
+        stdout: out(rows),
+        stderr: failed.length ? `Fixture self-check failed: ${failed.join(", ")}\n` : "",
+      };
+    }
+    if (command === "--help" || command === "-h" || command === "help") {
+      return { code: 0, stdout: USAGE, stderr: "" };
     }
   } catch (error) {
     return { code: 1, stdout: "", stderr: `${error instanceof Error ? error.message : "Command failed."}\n` };
   }
-  return { code: command ? 1 : 2, stdout: "", stderr: USAGE };
+  return { code: 1, stdout: "", stderr: USAGE };
 }
 
 const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);

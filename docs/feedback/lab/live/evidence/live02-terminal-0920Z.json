@@ -1,0 +1,56 @@
+{
+ "id": "call_t2SxwVonYPtacjRhntODcw",
+ "object": "call_task",
+ "status": "completed",
+ "recipients": [
+  {
+   "id": "rcp_05a6ca1c373545de",
+   "phones": "<phone>",
+   "locale": null,
+   "region": null,
+   "status": "completed",
+   "structured_result": null,
+   "summary": "The first call did not connect or complete; the recipient may be busy or unavailable, so you can confirm retrying in about 45 minutes, provide a different retry time, or ask to retry immediately.",
+   "attempts": [
+    {
+     "id": "att_a41c71c808ff2054",
+     "phone": "<phone>",
+     "status": "completed",
+     "started_at": null,
+     "completed_at": null,
+     "summary": "The first call did not connect or complete; the recipient may be busy or unavailable, so you can confirm retrying in about 45 minutes, provide a different retry time, or ask to retry immediately.",
+     "transcript_turns": [],
+     "provider_call_id": null,
+     "failure_code": null,
+     "failure_message": null
+    }
+   ]
+  }
+ ],
+ "structured_result": {
+  "reference": "",
+  "pickup_status": "unknown",
+  "pickup_timing": "",
+  "reference_quote": "",
+  "timing_resolved": "unknown",
+  "readback_confirmed": "unknown"
+ },
+ "summary": "The first call did not connect or complete; the recipient may be busy or unavailable, so you can confirm retrying in about 45 minutes, provide a different retry time, or ask to retry immediately.",
+ "task_completed": false,
+ "completion_confidence": {
+  "score": 0.58,
+  "label": "medium"
+ },
+ "evidence": [
+  "No recipient response or transcript was captured.",
+  "The required fictional pickup reference and pickup details were not obtained.",
+  "The call record does not show usable call timing or duration."
+ ],
+ "metadata": {
+  "experiment": "feedback-20260917-live02"
+ },
+ "failure_code": null,
+ "failure_message": null,
+ "created_at": "2026-09-17T07:21:52.993296Z",
+ "completed_at": "2026-09-17T07:58:16.898574Z"
+}

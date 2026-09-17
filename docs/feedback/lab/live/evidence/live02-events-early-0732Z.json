@@ -1,0 +1,41 @@
+{
+ "source_hash": "ba5cb2544cc1e8829ecfaa586a87be47c66f67a269b290eb3274b5134be89cbb",
+ "events": [
+  {
+   "type": "call.started",
+   "status": "queued",
+   "created_at": "2026-09-17T07:22:09.619267Z",
+   "message": "run_call started."
+  },
+  {
+   "type": "call.in_progress",
+   "status": "queued",
+   "created_at": "2026-09-17T07:22:11.776132Z",
+   "message": "botlab create bot."
+  },
+  {
+   "type": "call.in_progress",
+   "status": "queued",
+   "created_at": "2026-09-17T07:22:29.716206Z",
+   "message": "calling resolve robot id."
+  },
+  {
+   "type": "call.in_progress",
+   "status": "queued",
+   "created_at": "2026-09-17T07:22:32.199391Z",
+   "message": "calling create task."
+  },
+  {
+   "type": "call.updated",
+   "status": "queued",
+   "created_at": "2026-09-17T07:22:33.377630Z",
+   "message": "calling task created."
+  },
+  {
+   "type": "call.updated",
+   "status": "queued",
+   "created_at": "2026-09-17T07:22:33.950221Z",
+   "message": "calling task status=pending"
+  }
+ ]
+}

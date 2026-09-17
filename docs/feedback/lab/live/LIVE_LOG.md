@@ -1,37 +1,41 @@
 # Live lab — 2026-09-17
 
-Live CALL-E calls placed with the account owner's explicit authorisation, to the account owner's own phone, with the owner beside the phone. This supersedes the earlier lab rule of "no live calls"; the product board's own rule (fixture replay only) is unchanged.
+Live CALL-E calls placed with the account owner's explicit authorisation, to the account owner's own phone, with the owner beside the phone. This supersedes the earlier lab rule of "no live calls"; the product board's own rule (fixture replay only) is unchanged. No live CALL-E request (create, plan, run, or GET) was made after the owner's stop instruction; the corrections below were made from already-saved bytes.
 
-Raw objects, numbers and transcripts live in `.data/live-2026-09-17/` (not committed). Everything in this file is redacted. Runner: `live.py` (REST), `@call-e/cli` 0.5.1 (MCP path). Webhook sink: `webhook_sink.py` behind an ngrok tunnel; every REST create in this lab carries `webhook_url`.
+Raw objects, numbers and transcripts live in `.data/live-2026-09-17/` (not committed). Redacted excerpts and the two committed artefacts are under `evidence/`. Runner: `live.py` (REST), `@call-e/cli` 0.5.1 (MCP path).
 
-Account: API key from the OffHire `.env.local`; CLI OAuth login usable (expires 2029-05-15). Region: India (`IN`, supported, International). Pool: shared numbers, 1 simultaneous call (14 Sep changelog), so calls are sequential.
+Account: API key from the OffHire `.env.local`; CLI OAuth login usable. Region: India (`IN`, supported, International). Pool: shared numbers, 1 simultaneous call (14 Sep changelog), so calls are sequential.
 
 ## Ground rules
 
 - One create per case. No automatic redial. A local timeout is not a hangup: keep polling the existing id.
 - The recipient is told the protocol before each call and reports what happened on the phone (rang / did not ring / answered).
-- The recipient types the intended identifiers into this file before the call (second channel). The extract is compared character by character afterwards.
-- Every claim promoted to the form must point at a raw file in `.data/` by name and at a redacted excerpt here.
+- Every claim promoted to the form points at a saved file by name; anything not backed by saved bytes is marked "not claimed."
 
 ## Case index
 
 | Case | Path | Question | Status |
 | --- | --- | --- | --- |
 | C-01 (Codex live-01, 07:12Z) | REST | Does dictation + clarification produce an exact reference? | done — completed, 204 s accept→terminal, 12 polls `queued` with `in_progress` attempt |
-| C-02 (Codex live-02, 07:21Z) | REST | Same prompt, recipient-only card with a correction | done — phone never rang; see finding LV-01 |
-| L-01 | MCP/CLI | What does a no-answer look like on `get_call_run` and in `calle call status`? | planned |
-| L-02 | MCP/CLI | Does `run_call` twice on one `plan_id` + `confirm_token` dial twice? | planned |
-| L-03 | REST | Three dictated identifiers with F/S, 0/O, B/D, I/L/1 traps; `Idempotency-Key` replay after terminal; webhook capture | planned |
-| L-04 | REST | Schema the answer cannot satisfy (`integer`, max 3, participant says seven): what do GET and the webhook show? | planned |
+| C-02 (Codex live-02, 07:21Z) | REST | Same prompt, recipient-only card with a correction | done — phone never rang; see LV-01 |
+| L-01..L-04 | — | no-answer shape, run_call twice, dictation traps, impossible schema | not run — account out of balance, owner declined top-up |
 
 ## Findings
 
-### LV-01 — A call that never rang came back `completed`, `failure_code: null`, with a schema-valid result, 36 minutes later
+### LV-01 — A call that never rang finished `completed`, `failure_code: null`, with no transcript and no connection metadata; the read path can't say "never connected"
 
-Source: Codex case live-02, `call_t2SxwVonYPtacjRhntODcw`, created 2026-09-17T07:21:52Z. Recipient report at the time: "only received the first call" (the C-01 call). Codex polled 50 times over 619 s and stopped with top-level `queued`, one attempt `in_progress`, zero transcript turns. Re-read at 09:20Z:
+Corrected 17 Sep after an independent review flagged over-reach. Kept only what two saved artefacts show; dropped the "premature `call.completed`" and "wrong write" claims.
+
+Source: Codex case live-02, `call_t2SxwVonYPtacjRhntODcw`, created 2026-09-17T07:21:52Z. Recipient report: only the C-01 call rang; this one never did. Codex polled 50 times over 619 s and stopped with top-level `queued`, one attempt `in_progress`, zero transcript turns.
+
+Saved artefacts (redacted, committed):
+- `evidence/live02-events-early-0732Z.json` — events page pulled ~07:32Z (6 rows).
+- `evidence/live02-terminal-0920Z.json` — full call object pulled ~09:20Z (terminal).
+
+Terminal object (09:20Z):
 
 ```
-status: completed          completed_at: 07:58:16Z   (36 min 24 s after create)
+status: completed          completed_at: 07:58:16Z   (≈36 min after create)
 failure_code: null         failure_message: null
 task_completed: false      completion_confidence: {score 0.58, label medium}
 recipients[0].status: completed
@@ -41,60 +45,53 @@ summary: "The first call did not connect or complete; the recipient may be busy 
 evidence: ["No recipient response or transcript was captured.", "The required fictional pickup reference and pickup details were not obtained.", "The call record does not show usable call timing or duration."]
 ```
 
-Events (`GET /v1/calls/{id}/events`, 10 rows, `next_cursor` null):
+Early events (07:32Z, 6 rows, all `status: queued`):
 
 ```
-07:22:09 call.started      "run_call started."
-07:22:11 call.in_progress  "botlab create bot."
-07:22:29 call.in_progress  "calling resolve robot id."
-07:22:32 call.in_progress  "calling create task."
-07:22:33 call.completed    "calling task created."               <- first call.completed, 35 min before the real one
-07:22:33 call.updated      "calling task status=pending"
-07:57:46 call.updated      warning "calling task finished but intention is pending; waiting for detail sync."
-07:57:57 call.updated      warning "calling detail sync wait timed out with pending intention."
-07:57:57 call.updated      "calling task status=finished"
-07:58:13 call.completed    "calling task completed with status=finished"
+07:22:09 call.started      status queued  "run_call started."
+07:22:11 call.in_progress  status queued  "botlab create bot."
+07:22:29 call.in_progress  status queued  "calling resolve robot id."
+07:22:32 call.in_progress  status queued  "calling create task."
+07:22:33 call.updated      status queued  "calling task created."
+07:22:33 call.updated      status queued  "calling task status=pending"
 ```
 
-Every event row now carries `status: completed`. In Codex's 07:32Z snapshot the same rows carried `status: queued` — `CallEvent.status` is the call's current status joined at read time, not the status when the event happened.
+What the saved bytes support:
 
-What this means, against the published contract:
+1. Missing connection outcome (the real finding). The phone never rang, yet the terminal object is `completed`, `failure_code: null`, with `attempts[0].started_at: null`, `provider_call_id: null`, `transcript_turns: []`. No documented field names "did not connect." A polling operator cannot distinguish "connected, said nothing" from "never rang." The attempt-status enum already exists; an attempt-level `connected: false` / `no_answer` would resolve it. Ask: expose a connection outcome and per-stage timestamps.
+2. Prolonged, opaque progress. Top-level `queued` through 619 s of polling and (per `completed_at`) ~36 min total, while C-01 on the same account 10 min earlier took 204 s end to end. Nothing on GET explained the stall. Ask: meaningful queue/dispatch/connect/finalise stages.
+3. Empty result vs the null rule (design ask, not a wrong write). Our schema permits `""` and `"unknown"`, so the object is schema-valid and represents *missing answers*, not invented ones. But the docs say `structured_result` is `null` when "CALL-E did not produce a schema-valid whole-task result from the available evidence," and here the evidence list says nothing was captured yet a non-null object came back — the two behaviours are in tension. Ask: return `null` (or a typed no-evidence marker) when no transcript exists. Not claimed: that anyone wrote these as facts, or that `null` is the only correct representation.
+4. Channel-specific summary. `summary` is written for a chat client with a retry widget ("confirm retrying in about 45 minutes … or ask to retry immediately"); REST has no such control. Ask: host-neutral summaries.
+5. Event `status` doesn't track the event's own moment. In the 07:32Z snapshot every row — including `call.updated` "calling task created" — carries `status: queued`, i.e. the call's status at read time. Ask: document that `CallEvent.status` is the current call status, or snapshot it per event.
 
-1. The Calls guide says a `completed` state "does not establish that a person answered", and the errors page says the Calls API "does not guarantee a distinct no-answer" value. Both are honest. But the guide also says `structured_result` is `null` when "CALL-E did not produce a schema-valid whole-task result from the available evidence". Here the evidence list says no response and no transcript were captured, and the result is a non-null object of empty strings and `"unknown"` enums that passes the schema. An operator following the documented rule (`null` = no result) writes six empty fields.
-2. No documented field says "this call never connected". The signals are `attempts[0].started_at: null`, `provider_call_id: null`, `transcript_turns: []`, which no guide names as the no-connect signature.
-3. The summary is addressed to a chat user with a retry widget ("you can confirm retrying in about 45 minutes ... or ask to retry immediately"). Through the REST Calls API there is no retry confirmation to give; an agent that pastes the summary to the operator is now proposing a redial.
-4. Two `call.completed` events for one call; the first fires when the provider task is created, 35 minutes before anything terminal. Anyone consuming the events feed (not the webhook) on type `call.completed` acts 35 minutes early.
-5. Event messages are internal pipeline strings ("botlab create bot", "resolve robot id", "intention is pending", "detail sync"), and `call.started` says "run_call started." on a REST-created call.
-6. Top-level `queued` for 36 minutes while the provider task existed. The C-01 call, same account, same number, 10 minutes earlier, took 204 s end to end. Whatever stalled ("intention pending" for 35 min) was invisible on GET.
+Corrected / withdrawn:
+- I earlier wrote "two `call.completed` events, the first 35 min early." The saved early snapshot has **no** `call.completed` row; the 07:22:33 row is `call.updated` "calling task created." A later, unsaved read rendered a `call.completed` at that timestamp (type may be reclassified between reads), but I did not persist it, so I do not claim it.
+- I earlier called the empty result a "wrong write." It is schema-permitted missing data; reframed as the null-rule tension above.
 
-Asks: a recipient/attempt-level `connected: false` (or `attempt.status: no_answer` — the attempt enum already exists) and `structured_result: null` when no transcript exists; one `call.completed` per call; summaries without channel-specific retry prose; document that `CallEvent.status` is the current status, or snapshot it.
+Not claimed: why the call did not ring (carrier, pool, provider, or the balance that later ran out) — not isolated. Whether the 36-min latency is typical — n=1.
 
-Not claimed: why the call did not ring (carrier, pool, provider) — not isolated. Whether the 36-minute stall is typical — n=1.
+### LV-02 — Out of balance: REST returns a typed `402`; MCP returns `ok` with the billing message as a clarifying question, and `run_call` still mints a FAILED run labelled `guardrails_reject`
 
-### LV-02 — Out of balance: REST says `402 insufficient_balance`; MCP says `ok`, mints a plan and a run, and calls it a guardrails rejection
+Observed 2026-09-17 09:35Z after the two Codex calls exhausted the balance (no surface reports balance, so the owner didn't know).
 
-Observed 2026-09-17 09:35Z when the account balance ran out after the two Codex calls (billing not visible through any API; the operator did not know).
-
-REST, `POST /v1/calls` (live.py case L01R, `.data/live-2026-09-17/L01R/created-*.json`):
+REST, `POST /v1/calls` (`.data/live-2026-09-17/L01R/created-*.json`):
 
 ```
-HTTP 402  {"error": {"code": "insufficient_balance", "message": "Insufficient CALL-E balance. Please top up at https://dashboard.heycall-e.com/account/billing and try again.", "details": {"reason_code": "iams_balance_insufficient"}}}
+HTTP 402  {"error": {"code": "insufficient_balance", "message": "Insufficient CALL-E balance. Please top up at .../account/billing and try again.", "details": {"reason_code": "iams_balance_insufficient"}}}
 ```
 
-Exactly what errors.md promises: stable code, documented recovery ("resolve the account's billing condition"). No call id, nothing to poll. Correct.
+Exactly what errors.md promises: stable code, documented recovery, no call id. Correct. Both SDKs map it correctly (TS `CalleAPIError` code `insufficient_balance` status 402; Python same, `status_code` 402); `create_and_wait` / `createAndWait` throw before any call exists.
 
-MCP, `calle call plan` → `plan_call` (`.data/live-2026-09-17/L01/plan.json`):
+MCP, `calle call plan` → `plan_call` (`.data/live-2026-09-17/L01/plan.json`, raw):
 
 ```
 ok true, isError false
-plan_id "p86YC19F1", ready_to_run false, confirm_token <4 chars>, expires_at +24h
-next_step: "Please try again later."            (a string on plan_call; an object on run_call/get_call_run)
-clarifying_questions: ["Insufficient CALL-E balance. Please top up at ... and try again."]
-questions: [{key "question_1", question "Insufficient CALL-E balance. ..."}]
-confirm_summary: "Insufficient CALL-E balance. ..."
+plan_id "p86YC19F1", ready_to_run false, confirm_token null      <- null, NOT a credential
+next_step: "Please try again later."   (a string on plan_call; an object on run_call/get_call_run)
+clarifying_questions / questions[].question / confirm_summary: all = "Insufficient CALL-E balance. Please top up ..."
 ```
 
-MCP, `mcp call run_call` with that plan_id + confirm_token (`.data/live-2026-09-17/L01/run_call_not_ready.json`):
+MCP, `mcp call run_call` on that plan (`.data/live-2026-09-17/L01/run_call_not_ready.json`, raw):
 
 ```
 ok true, isError false, exit 0
@@ -105,44 +102,32 @@ next_step: {action "report_blocked", instruction "Report the current terminal ru
 
 `calle call status --run-id fYdWmS2Fhj3lI9Fxi8DG1A` → `ok true`, `isError false`, `status FAILED`, exit 0.
 
-What this means:
+What the saved bytes support:
 
-1. The same billing condition is a typed, documented error on REST and a *question for the user* on MCP. `plan_call` puts the account error in `clarifying_questions[]` and `questions[].question`, so a host that renders questions asks the operator "Insufficient CALL-E balance. Please top up…?" as if it were a clarification, and `confirm_summary` — the field the skills read aloud before asking permission to dial — is the billing message.
-2. A `plan_id` and `confirm_token` are issued for a plan that cannot run; `run_call` on them is accepted (`isError false`), a `run_id` is minted and a FAILED run is stored. That FAILED run is indistinguishable in shape from a dial that failed, from a typo'd run_id (XR-704: `run_id not found.` is also `status FAILED`, `isError false`), and now from "you have no money". Three different conditions, one status word, and `isError false` on all three.
-3. The activity feed labels the billing block `guardrails_reject` — "run_call rejected by guardrails." An operator reading activity concludes their task was blocked by a content guardrail and rewrites the goal.
-4. `next_step` on `plan_call` is the string "Please try again later." — the wrong instruction (retrying does nothing without a top-up) and the wrong type (the guide documents `next_step` as an object with `action`).
-5. Balance is invisible: no API, CLI or MCP surface reports it. Three surfaces discovered it by failing.
+1. The same billing condition is a typed, documented error on REST and a *clarifying question* on MCP: `plan_call` puts the message in `clarifying_questions[]`, `questions[].question`, and `confirm_summary` (the field skills read aloud before asking to dial). A question-rendering host asks the operator "Insufficient CALL-E balance…?" as if it were missing task info.
+2. `run_call` on a not-ready plan (`ready_to_run: false`, `confirm_token: null`) is still accepted (`isError false`) and mints a `run_id` with `status FAILED`. That FAILED run is shape-identical to a dial that failed and to a typo'd `run_id` (XR-704: "run_id not found." is also `status FAILED`, `isError false`). One word, three conditions, `isError false` on all.
+3. The block is labelled `guardrails_reject` ("run_call rejected by guardrails.") though the message is billing — an operator concludes a content filter tripped and rewrites a fine goal.
+4. `next_step` on `plan_call` is the string "Please try again later." — wrong action (a retry does nothing without top-up) and wrong type (documented as an object).
+5. No `auth status`, CLI or MCP surface I tested reports remaining balance; three surfaces discovered it by failing.
 
-Asks: MCP `plan_call` should return a typed error (`isError true`, code `insufficient_balance`) and no plan; `run_call` should not mint a run for a not-ready plan; `guardrails_reject` reserved for guardrails; a balance/remaining-calls read somewhere (`auth status`, `GET /v1/account`, or a header on 402).
+Corrected: my first note read `confirm_token <4 chars>` — a redaction bug (`len(str(None))==4`). The token is `null`; there is no minted credential and no "exact pair to just run." The valid part is #2 (a run is minted for a not-ready plan). `live.py` redaction fixed.
 
-Addenda (same session):
+Asks: MCP `plan_call` returns a typed error (`isError true`, code `insufficient_balance`) and no plan; `run_call` refuses a not-ready plan; a specific billing reason code instead of `guardrails_reject`; a documented remaining-balance field or a header on the 402.
 
-- `calle call start` at zero balance stops correctly (`ok false`, `call_started false`, exit 1) but reports `error.code "plan_not_ready"`, message "Call plan needs more information before it can run: Insufficient CALL-E balance…", and `retry_safe true`. Retrying does nothing; the plan does not need information. (`.data/live-2026-09-17/L01/call_start_zero_balance.json`)
-- Both SDKs map the live 402 correctly: TS `CalleAPIError {code "insufficient_balance", status 402, details.reason_code "iams_balance_insufficient"}`; Python `CalleAPIError` with `code "insufficient_balance"`, `status_code 402`. `createAndWait` / `create_and_wait` throw the same before any call exists. Correct.
-- The balance check runs before every other `plan_call` validation: `to_phones` of `+1234`, a 10-digit national number, `+91112` and `+85012345678` all return the identical balance question, `ready_to_run false`, `isError false`, and each mints a `plan_id`. An agent iterating on a plan at zero balance gets no validation feedback at all. (`.data/live-2026-09-17/probes/plan_*.json`)
+Addendum: `calle call start` at zero balance stops correctly (`ok false`, `call_started false`, exit 1) but reports `error.code "plan_not_ready"`, "needs more information before it can run," and `retry_safe true` — retrying does nothing and the plan doesn't need info. The balance check also runs before every other `plan_call` validation (`+1234`, a national number, `+91112`, `+85012345678` all return the identical balance question with `ready_to_run false`), so an agent iterating on a plan at zero balance gets no field-level feedback. (`.data/live-2026-09-17/probes/plan_*.json`)
 
-Live tests L-01..L-04 are not being run: the owner declined to top up. Not claimed from them.
+### LV-03 — The cached CLI access token advertises a ~1000-day lifetime, carries no refresh token, and `logout` makes no revoke request (observed); plus long-lived identity claims (worth questioning)
 
-### LV-03 — The CLI's OAuth access token is a 1000-day HS256 JWT with a `dev` key id, internal tenant roles in the claims, and no revocation path
+Corrected 17 Sep to observed facts only; exploitation verdicts removed.
 
-Source: `~/.calle-mcp/cli/<hash>/token.json` on this machine (mode 0600, directory 0700 — the file permissions are right). Claims decoded locally; nothing sent anywhere. Personal values redacted.
+Source: `~/.calle-mcp/cli/<hash>/token.json` (mode 0600, dir 0700 — permissions correct). Decoded locally; nothing sent. Personal values redacted.
 
-```
-issued_at 2026-08-19T16:41:56Z   expires_at 2029-05-15T16:40:46Z   token.expires_in 86399930   (≈ 1000 days)
-token: { access_token <833 chars>, expires_in, token_type }      no refresh_token, no scope
-JWT header:  {"alg": "HS256", "kid": "iams-jwt-dev-20260727-01", "typ": "JWT"}
-JWT payload: userId, loginAccount <email>, username, isAdmin 0, clientId, companyId, companyName/companyCode "third_user_<username>",
-             roleInfo: [Administrator, Fujifilm_partner, BotLab_Admin_Approval, BotLab_Admin], timeZone "UTC-04:00", iss "iams_management",
-             nbf 1787156645, exp 1873557645
-```
+Observed (saved):
+- `token.expires_in` ≈ 86,399,930 s and the JWT's `exp − nbf` are both ≈ 1000 days (issued ~2026-08-19, expiry ~2029-05).
+- No `refresh_token` and no `scope` in the cached response.
+- JWT header `{"alg":"HS256","kid":"iams-jwt-dev-20260727-01"}`; payload carries `userId`, `loginAccount`, `username`, `isAdmin`, `clientId`, `companyId`, `roleInfo` (role labels incl. `BotLab_Admin`, a partner role), `timeZone "UTC-04:00"`, `iss "iams_management"`, `nbf`, `exp`. (`nbf`, not `iat` — not treated as issue time.)
+- In an isolated fake cache, `auth logout` deleted the local files and issued **no** network request; `rg -i "revoke|refresh_token"` over `cli/lib` and `core/lib` (1ce9d77) is empty.
 
-`calle auth logout` "Remove local token, login, and call recovery cache" — `packages/cli/lib/cli.js` and `packages/core/lib/*.js` (1ce9d77) contain no revoke or refresh call; `rg -i "revoke|refresh_token"` over both is empty. The OAuth guide's only lifetime statement is "never expose … refresh tokens", and the CLI's `--min-ttl-seconds` default is 300 s against a token with 2.7 years left.
+Not established (so not claimed): whether a copied token is still accepted after logout (no server-side revocation test run); whether the role labels grant elevated access (labels ≠ authorization); whether a `dev` key id or HS256 is used unsafely; that decodable JWT claims constitute a breach (they're expected). Removed the words "leaks," "genuine security item," and "stays valid server-side."
 
-What this means:
-
-1. A bearer that can place paid phone calls lives on disk for ~1000 days, cannot be rotated by the client (no refresh token) and cannot be revoked by the client (`logout` deletes the file; the token stays valid). A laptop backup, a copied home directory or a leaked `--cache-root` is a three-year dialling credential.
-2. The signing key id says `dev` and the algorithm is symmetric (HS256): any service that verifies these tokens holds the key that mints them. That is the vendor's business, but the `kid` on a production token is a smell worth a look.
-3. The payload leaks tenant internals to a hackathon user: role names `Fujifilm_partner`, `BotLab_Admin_Approval`, `BotLab_Admin` on an account created through the public sign-up, plus `isAdmin`, `clientId`, `companyId`, and a `timeZone` of UTC-04:00 for a user in UTC+05:30. None of these are needed by the MCP server to authorise `run_call`.
-4. The OAuth guide tells agents not to expose refresh tokens; there are none. It says nothing about the access-token lifetime, which is the thing an operator would actually want to know.
-
-Asks: short-lived access token + refresh token (or at most days, not years); a server-side revoke on `auth logout` and a "sign out everywhere" in the dashboard; strip role/tenant claims from the client-facing token or move to an opaque token; document the lifetime in the OAuth guide and in `auth status`.
+Asks (operational): document the access-token lifetime in the OAuth guide and `auth status`; offer a shorter lifetime and/or a documented rotation/revocation mechanism; make `logout` semantics explicit (local-only vs server-side); minimise client-visible identity claims. Refs: RFC 7519 (JWT), RFC 7009 (OAuth revocation).

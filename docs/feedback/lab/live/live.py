@@ -46,6 +46,15 @@ def redact(obj):
     return PHONE_RE.sub("<phone>", s)
 
 
+def token_note(v):
+    """Describe a token field without ever reporting null as a credential."""
+    if v is None:
+        return "null (no token)"
+    if isinstance(v, str):
+        return f"present (<{len(v)} chars>)"
+    return f"present ({type(v).__name__})"
+
+
 def now():
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec="milliseconds")
 

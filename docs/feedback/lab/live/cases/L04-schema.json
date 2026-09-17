@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["attendee_count"],
+  "properties": {
+    "attendee_count": {"type": "integer", "minimum": 1, "maximum": 3, "description": "Number of attendees the participant stated."}
+  }
+}

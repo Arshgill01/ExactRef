@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reference_1", "reference_2", "reference_3", "readback_1", "readback_2", "readback_3", "corrections_made"],
+  "properties": {
+    "reference_1": {"type": "string", "description": "First reference exactly as finally confirmed by the participant. Empty if not established. Never infer characters."},
+    "reference_2": {"type": "string", "description": "Second reference exactly as finally confirmed. Empty if not established."},
+    "reference_3": {"type": "string", "description": "Third reference exactly as finally confirmed. Empty if not established."},
+    "readback_1": {"type": "string", "enum": ["yes", "no", "unknown"], "description": "Did the participant confirm the readback of reference one?"},
+    "readback_2": {"type": "string", "enum": ["yes", "no", "unknown"]},
+    "readback_3": {"type": "string", "enum": ["yes", "no", "unknown"]},
+    "corrections_made": {"type": "integer", "minimum": 0, "description": "How many times the participant corrected a readback."}
+  }
+}
